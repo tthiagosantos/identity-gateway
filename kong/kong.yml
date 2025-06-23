@@ -1,0 +1,30 @@
+_format_version: "3.0"
+
+services:
+  - name: go-api
+    url: http://host.docker.internal:8084
+    routes:
+      - name: go-api-route
+        paths:
+          - /api
+        strip_path: true
+        plugins:
+          - name: jwt
+
+  - name: smartsite-api
+    url: http://host.docker.internal:5050
+    routes:
+      - name: smartsite-api-route
+        paths:
+          - /smartsite
+
+consumers:
+  - username: keycloak-user
+    custom_id: keycloak-user-id
+    jwt_secrets:
+      - key: http://localhost:8080/realms/padtec-reaml
+        algorithm: RS256
+        rsa_public_key: |
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAlfI0Jped/b/6zoz+HqPpEYv+9Xzb2FU+UrXFxvTRDAdkCO1IqiCmmYR1OdP9owC3vtKW14LVugijRyl5OzL0+OWaEt0HtUlfDvUBKn4E6hfhcWu8iYhRxHv6Yhbe/NUJWADHy9XHPsYgE1nLcI9sREWizXW8xjm0ZhkYX84AfSyCD8B8CEmJ4dL6Z4beL0DeH+egABLvuv0A0/GbIF8+SMcDWXtSo3HeOjYulgvZVe3Yk11kamhYYaMCtC9xB/H+cxt+sinJZl7xbkDO7PIvHmB1dfqwvEMS3HQiB0svo1TSbskfV9+6BBaxDH8SUdR2qgj1PQ4uVKa06bD2QGjuuQIDAQAB
+          -----END PUBLIC KEY-----
